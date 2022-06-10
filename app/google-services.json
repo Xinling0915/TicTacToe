@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "343160059020",
+    "firebase_url": "https://noughts-crosses-491a8-default-rtdb.firebaseio.com",
+    "project_id": "noughts-crosses-491a8",
+    "storage_bucket": "noughts-crosses-491a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:343160059020:android:08a0986e06a0b4302e77a9",
+        "android_client_info": {
+          "package_name": "com.example.noughtscrosses"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "343160059020-267jhlppiv5enql0vfbugl0c6k1ovc0j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBF3uu9pmCSYhmW89lDf2UZU6N3LJngP3s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "343160059020-267jhlppiv5enql0vfbugl0c6k1ovc0j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

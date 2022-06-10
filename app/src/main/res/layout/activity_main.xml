@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/player"
+        android:layout_width="263dp"
+        android:layout_height="250dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="447dp"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="# 需填寫玩家名稱"
+            android:textColor="#FF002E"
+            android:textSize="12sp"
+            android:visibility="invisible" />
+
+        <EditText
+            android:id="@+id/player1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="請輸入玩家1名字"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/player2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="請輸入玩家2名字"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/btnUpdate"
+            android:layout_width="106dp"
+            android:layout_height="wrap_content"
+            android:text="開始遊戲" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/charts"
+        android:layout_width="297dp"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="85dp"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/king"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/king" />
+
+        <TextView
+            android:id="@+id/Chart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="排行榜"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/chart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <GridLayout
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_marginLeft="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="49dp"
+        android:background="@drawable/tictac"
+        android:columnCount="3"
+        android:rowCount="3"
+        android:id="@+id/gridLayout"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:onClick="dropIn"
+            android:tag="0"
+            />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_column="1"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="25dp"
+            android:layout_row="0"
+            android:onClick="dropIn"
+            android:tag="1"
+            />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_column="2"
+            android:layout_marginLeft="35dp"
+            android:onClick="dropIn"
+            android:layout_marginTop="25dp"
+            android:layout_row="0"
+            android:tag="2"
+            />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_column="0"
+            android:layout_marginLeft="25dp"
+            android:onClick="dropIn"
+            android:layout_marginTop="40dp"
+            android:layout_row="1"
+            android:tag="3"
+            />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_column="1"
+            android:layout_marginLeft="35dp"
+            android:onClick="dropIn"
+            android:layout_marginTop="40dp"
+            android:layout_row="1"
+            android:tag="4"
+            />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_column="2"
+            android:onClick="dropIn"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="40dp"
+            android:layout_row="1"
+            android:tag="5"
+            />
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="70dp"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:layout_height="70dp"
+            android:onClick="dropIn"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="45dp"
+            android:tag="6"
+            />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_row="2"
+            android:layout_column="1"
+            android:onClick="dropIn"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="40dp"
+            android:tag="7"
+            />
+
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_row="2"
+            android:layout_column="2"
+            android:onClick="dropIn"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="45dp"
+            android:tag="8" />
+    </GridLayout>
+
+    <LinearLayout
+        android:id="@+id/winner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="406dp"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/winner1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="Winner"
+            android:textSize="24sp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="playAgain"
+            android:text="PLAY Again?" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="home"
+            android:text="BACK TO HOME" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/player1Data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="580dp"
+        android:padding="20dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/player1_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/circle1"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/player1Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Player1"
+            android:padding="10dp"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/player2Data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="525dp"
+        android:padding="20dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/player2_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/circle2"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/player2Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Player2"
+            android:padding="10dp"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
