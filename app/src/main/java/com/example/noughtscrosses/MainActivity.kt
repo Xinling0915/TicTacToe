@@ -15,6 +15,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.example.noughtscrosses.databinding.ActivityMainBinding
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.delay
+import java.util.*
+import kotlin.collections.HashMap
+import kotlin.concurrent.timerTask
 
 class MainActivity : AppCompatActivity() {
     var db = FirebaseFirestore.getInstance()
@@ -195,11 +198,10 @@ class MainActivity : AppCompatActivity() {
     var players: String = ""
     lateinit var player1: EditText
     lateinit var player2: EditText
-    lateinit var player1Name: TextView
-    lateinit var player2Name: TextView
+    var player1name = ""
+    var player2name = ""
     var player1Count = 0
     var player2Count = 0
-    var secondsLeft:Int = 1000  //倒數
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -228,62 +230,65 @@ class MainActivity : AppCompatActivity() {
             ) {
                 binding.player.visibility = View.GONE
                 binding.charts.visibility = View.GONE
-//                binding.player1Data.visibility = View.VISIBLE
-//                binding.player2Data.visibility = View.VISIBLE
-//                binding.gridLayout.visibility = View.VISIBLE
                 binding.player1Name.visibility = View.VISIBLE
                 binding.player2Name.visibility = View.VISIBLE
                 binding.roll.visibility = View.VISIBLE
-//                binding.player1Name.setText(binding.player1.text.toString())
+                binding.dice.setImageResource(R.drawable.dice)
                 binding.player2Name.setText(binding.player2.text.toString())
                 binding.player1Name.text = "請玩家" + binding.player1.text.toString() + "骰骰子"
-                binding.roll.setOnClickListener({
-                    rndDice()
-                    player1Count = counter
 
-                    if(player1Count>0) {
-                        binding.player1Name.text = "玩家" + binding.player1.text.toString() + "骰子數" + player1Count
-                        binding.player2Name.text = "請玩家" + binding.player2.text.toString() + "骰骰子"
-                        binding.roll.setOnClickListener({
-                            rndDice()
-                            player2Count = counter
-                            while(secondsLeft > 0) {
-                                binding.player2Name.text =
-                                    "玩家" + binding.player2.text.toString() + "骰子數" + player2Count
-                            }
-                            secondsLeft--
-
-                            if(player2Count>0) {
-                                if (player1Count > player2Count) {
-                                    binding.roll.visibility = View.GONE
-                                    binding.player1Image.visibility = View.VISIBLE
-                                    binding.player2Image.visibility = View.VISIBLE
-                                    binding.player1Name.text = binding.player1.text.toString()
-                                    binding.player2Name.text = binding.player2.text.toString()
-                                } else if (player1Count < player2Count) {
-                                    binding.roll.visibility = View.GONE
-                                    binding.player1Image.visibility = View.VISIBLE
-                                    binding.player2Image.visibility = View.VISIBLE
-                                    binding.player1Name.text = binding.player2Name.text
-                                    binding.player2Name.text = binding.player1Name.text
-                                }
-                        }
-                    })
+                activePlayer = 1
+                gameIsActive = true
+                count = 0
+                for (i in gameState.indices) {
+                    gameState[i] = 2
                 }
-                })
-
-//                activePlayer = 1
-//                gameIsActive = true
-//                count = 0
-//                for (i in gameState.indices) {
-//                    gameState[i] = 2
-//                }
-//                val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
-//                for (i in 0 until gridLayout.childCount) {
-//                    (gridLayout.getChildAt(i) as ImageView).setImageResource(0) //p t n
-//                }
+                val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
+                for (i in 0 until gridLayout.childCount) {
+                    (gridLayout.getChildAt(i) as ImageView).setImageResource(0) //p t n
+                }
             } else {
                 binding.error.visibility = View.VISIBLE
+            }
+        })
+
+        binding.roll.setOnClickListener({
+            rndDice()
+            player1Count = counter
+            if(player1Count>0) {
+                binding.player1Name.text = "玩家" + binding.player1.text.toString() + "骰子數" + player1Count
+                binding.player2Name.text = "請玩家" + binding.player2.text.toString() + "骰骰子"
+                binding.roll.setOnClickListener({
+                    rndDice()
+                    player2Count = counter
+                    binding.player2Name.text = "玩家" + binding.player2.text.toString() + "骰子數" + player2Count
+                    if(player2Count>0) {
+                        if (player1Count > player2Count) {
+                            binding.startGame.visibility = View.VISIBLE
+                            binding.start.text = "由玩家" + binding.player1.text.toString() + "先開始遊戲"
+                        } else if (player1Count < player2Count) {
+                            binding.startGame.visibility = View.VISIBLE
+                            binding.start.text = "由玩家" + binding.player2.text.toString() + "先開始遊戲"
+                            player1name += binding.player2Name.text
+                            player2name += binding.player1Name.text
+                        }
+                    }
+                })
+            }
+        })
+
+        binding.btnStart.setOnClickListener({
+            binding.roll.visibility = View.GONE
+            binding.startGame.visibility = View.GONE
+            binding.gridLayout.visibility = View.VISIBLE
+            binding.player1Image.visibility = View.VISIBLE
+            binding.player2Image.visibility = View.VISIBLE
+            if(player2Count>0) {
+                binding.player1Name.text = binding.player1.text.toString()
+                binding.player2Name.text = binding.player2.text.toString()
+            }else{
+                binding.player1Name.setText(player1name)
+                binding.player2Name.setText(player2name)
             }
         })
     }
@@ -291,7 +296,6 @@ class MainActivity : AppCompatActivity() {
     var counter = 0
     fun rndDice():Int{
         counter = (1..6).random()
-
             when (counter) {
                 1 -> binding.dice.setImageResource(R.drawable.dice1)
                 2 -> binding.dice.setImageResource(R.drawable.dice2)
@@ -299,68 +303,7 @@ class MainActivity : AppCompatActivity() {
                 4 -> binding.dice.setImageResource(R.drawable.dice4)
                 5 -> binding.dice.setImageResource(R.drawable.dice5)
                 6 -> binding.dice.setImageResource(R.drawable.dice6)
-
-//            delay(25)
         }
-        secondsLeft = 1000
         return counter
     }
-
-//    override fun onTouch(p0: View?, event: MotionEvent?): Boolean {
-//        if  (event?.action == MotionEvent.ACTION_UP){
-//            rndDice()
-//        }
-//        if(playerCount>){
-//
-//        }
-//        gDetector.onTouchEvent(event)
-//        return true
-//    }
-
-//    override fun onDown(p0: MotionEvent?): Boolean {
-////        txv.text = "按下"
-//        return true
-//    }
-//
-//    override fun onShowPress(p0: MotionEvent?) {
-////        txv.text = "持續"
-//    }
-//
-//    override fun onSingleTapUp(p0: MotionEvent?): Boolean {
-////        txv.text = "短按"
-//        return true
-//    }
-//
-//    override fun onScroll(p0: MotionEvent?, p1: MotionEvent?, p2: Float, p3: Float): Boolean {
-//        //txv.text = "拖曳"
-//        rndDice()
-//        return true
-//    }
-//
-//    override fun onLongPress(p0: MotionEvent?) {
-////        txv.text = "長按"
-//    }
-//
-//    override fun onFling(p0: MotionEvent?, p1: MotionEvent?, p2: Float, p3: Float): Boolean {
-//        //txv.text = "快滑"
-//        return true
-//    }
-//
-//    override fun onSensorChanged(event: SensorEvent?) {
-//        if(event != null){
-//            val xValue = Math.abs(event.values[0]) // 加速度 - X 軸方向
-//            val yValue = Math.abs(event.values[1]) // 加速度 - Y 軸方向
-//            val zValue = Math.abs(event.values[2]) // 加速度 - Z 軸方向
-//            if (xValue > 20 || yValue > 20 || zValue > 20) {
-//                rndDice()
-//                mper = MediaPlayer.create(this, R.raw.dice)
-//                mper.start()
-//                mper.isLooping = false
-//            }
-//        }
-//    }
-//
-//    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
-//
-//    }
 }
