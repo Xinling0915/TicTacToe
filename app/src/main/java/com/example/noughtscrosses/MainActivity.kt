@@ -2,6 +2,8 @@ package com.example.noughtscrosses
 
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -9,8 +11,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.example.noughtscrosses.databinding.ActivityMainBinding
 import com.google.firebase.firestore.Query
 import kotlin.collections.HashMap
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),
+    GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener,
+    View.OnTouchListener {
     var db = FirebaseFirestore.getInstance()
     lateinit var binding: ActivityMainBinding
     var winCount = 1
@@ -171,7 +176,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun home(view: View?) {
+    fun back(view: View?) {
         binding.gridLayout.visibility = View.GONE
         binding.winner.visibility = View.GONE
         binding.player1Image.visibility = View.GONE
@@ -271,6 +276,17 @@ class MainActivity : AppCompatActivity() {
                 binding.player2Name.setText(binding.player1.text.toString())
             }
         })
+
+        gDetector = GestureDetector(this, this)
+        home.setOnTouchListener(this)
+        var res:Int = -1
+        var countDrawables:Int = -1
+        while (res != 0) {
+            countDrawables++;
+            res = getResources().getIdentifier("home" + countDrawables.toString(),
+                "drawable", getPackageName());
+        }
+        TotalPictures = countDrawables
     }
 
     var counter = 0
@@ -286,5 +302,78 @@ class MainActivity : AppCompatActivity() {
                 6 -> binding.dice.setImageResource(R.drawable.dice6)
         }
         return counter
+    }
+
+
+    lateinit var gDetector: GestureDetector
+    var PictureNo:Int = 0  //目前顯示第幾張圖
+    var TotalPictures:Int = 1
+    fun ShowPicture() {
+        var res:Int = getResources().getIdentifier("home" + PictureNo.toString(),
+            "drawable", getPackageName())
+        home.setImageResource(res)
+    }
+
+    fun btnGo(view: View?) {
+        binding.homePage.visibility = View.GONE
+        binding.player.visibility = View.VISIBLE
+        binding.charts.visibility = View.VISIBLE
+        binding.player1.setText("")
+        binding.player2.setText("")
+        count = 0
+    }
+
+    override fun onDown(p0: MotionEvent?): Boolean {
+        return true
+    }
+
+    override fun onShowPress(p0: MotionEvent?) {
+        //txv.text = "按下後無後續動作"
+    }
+
+    // 短按
+    override fun onSingleTapUp(p0: MotionEvent?): Boolean {
+        PictureNo = 0
+        ShowPicture()
+        return true
+    }
+
+    override fun onScroll(p0: MotionEvent?, p1: MotionEvent?, p2: Float, p3: Float): Boolean {
+        return true
+    }
+
+    override fun onLongPress(p0: MotionEvent?) {
+        PictureNo = TotalPictures - 1
+        ShowPicture()
+    }
+
+    override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+        if (e1!!.getX() < e2!!.getX()){  //向右快滑
+            PictureNo++
+            if (PictureNo == TotalPictures) {PictureNo = 0}
+        }
+        else{     //向左快滑
+            PictureNo--;
+            if (PictureNo < 0) {PictureNo = TotalPictures - 1 }
+        }
+        ShowPicture()
+        return true
+    }
+
+    override fun onSingleTapConfirmed(p0: MotionEvent?): Boolean {
+        return true
+    }
+
+    override fun onDoubleTap(p0: MotionEvent?): Boolean {
+        return true
+    }
+
+    override fun onDoubleTapEvent(p0: MotionEvent?): Boolean {
+        return true
+    }
+
+    override fun onTouch(p0: View?, event: MotionEvent?): Boolean {
+        gDetector.onTouchEvent(event)
+        return true
     }
 }

@@ -8,6 +8,30 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/homePage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/home0" />
+
+        <Button
+            android:layout_width="106dp"
+            android:layout_height="wrap_content"
+            android:text="Game"
+            android:onClick="btnGo"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/player"
         android:layout_width="263dp"
         android:layout_height="250dp"
@@ -15,7 +39,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="447dp"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="20dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/error"
@@ -55,7 +80,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="85dp"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="20dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/king"
@@ -93,12 +119,6 @@
         android:rowCount="3"
         android:id="@+id/gridLayout"
         android:visibility="gone">
-
-<!--        <VideoView-->
-<!--            android:id="@+id/vdv"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1" />-->
 
         <ImageView
             android:id="@+id/imageView"
@@ -235,7 +255,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="home"
+            android:onClick="back"
             android:text="BACK TO HOME" />
 
     </LinearLayout>
